@@ -112,8 +112,9 @@
       if (this.sessionToken && !this.appendSessionToken) {
         params.set('X-Amz-Security-Token', this.sessionToken);
       }
+      const headersToIgnore = new Set(ignoreHeaders || []);
       this.signableHeaders = ['host', ...this.headers.keys()]
-        .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header) || !ignoreHeaders?.includes(header))
+        .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header) || !headersToIgnore.has(header))
         .sort();
       this.signedHeaders = this.signableHeaders.join(';');
       this.canonicalHeaders = this.signableHeaders
