@@ -74,7 +74,7 @@ export class AwsClient {
    *     appendSessionToken?: boolean
    *     allHeaders?: boolean
    *     singleEncode?: boolean
-   *     ignoreHeaders?: Array<string>
+   *     ignoreHeaders?: string[]
    *   }
    * }} AwsRequestInit
    *
@@ -144,7 +144,7 @@ export class AwsV4Signer {
    *   appendSessionToken?: boolean
    *   allHeaders?: boolean
    *   singleEncode?: boolean
-   *   ignoreHeaders?: Array<string>
+   *   ignoreHeaders?: string[]
    * }} options
    */
   constructor({ method, url, headers, body, accessKeyId, secretAccessKey, sessionToken, service, region, cache, datetime, signQuery, appendSessionToken, allHeaders, singleEncode, ignoreHeaders }) {
@@ -187,11 +187,10 @@ export class AwsV4Signer {
       params.set('X-Amz-Security-Token', this.sessionToken)
     }
 
-    const headersToIgnore = new Set(ignoreHeaders || [])
-
     // headers are always lowercase in keys()
     this.signableHeaders = ['host', ...this.headers.keys()]
-      .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header) || !headersToIgnore.has(header))
+      // @ts-ignore
+      .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header) || !ignoreHeaders.includes(header))
       .sort()
 
     this.signedHeaders = this.signableHeaders.join(';')
