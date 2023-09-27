@@ -30,7 +30,7 @@ export class AwsClient {
             appendSessionToken?: boolean | undefined;
             allHeaders?: boolean | undefined;
             singleEncode?: boolean | undefined;
-            ignoreHeaders?: Array<string> | [];
+            ignoreHeaders?: Array<string> | undefined;
         } | undefined;
     }) | null | undefined): Promise<Request>;
     fetch(input: RequestInfo, init?: (RequestInit & {
@@ -46,7 +46,7 @@ export class AwsClient {
             appendSessionToken?: boolean | undefined;
             allHeaders?: boolean | undefined;
             singleEncode?: boolean | undefined;
-            ignoreHeaders?: Array<string> | [];
+            ignoreHeaders?: Array<string> | undefined;
         } | undefined;
     }) | null | undefined): Promise<Response>;
 }
@@ -67,7 +67,7 @@ export class AwsV4Signer {
         appendSessionToken?: boolean;
         allHeaders?: boolean;
         singleEncode?: boolean;
-        ignoreHeaders?: Array<string> | [];
+        ignoreHeaders?: Array<string>;
     });
     method: string;
     url: URL;
