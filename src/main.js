@@ -74,6 +74,7 @@ export class AwsClient {
    *     appendSessionToken?: boolean
    *     allHeaders?: boolean
    *     singleEncode?: boolean
+   *     ignoreHeaders?: Array<string>
    *   }
    * }} AwsRequestInit
    *
@@ -143,9 +144,10 @@ export class AwsV4Signer {
    *   appendSessionToken?: boolean
    *   allHeaders?: boolean
    *   singleEncode?: boolean
+   *   ignoreHeaders?: Array<string>
    * }} options
    */
-  constructor({ method, url, headers, body, accessKeyId, secretAccessKey, sessionToken, service, region, cache, datetime, signQuery, appendSessionToken, allHeaders, singleEncode }) {
+  constructor({ method, url, headers, body, accessKeyId, secretAccessKey, sessionToken, service, region, cache, datetime, signQuery, appendSessionToken, allHeaders, singleEncode, ignoreHeaders }) {
     if (url == null) throw new TypeError('url is a required option')
     if (accessKeyId == null) throw new TypeError('accessKeyId is a required option')
     if (secretAccessKey == null) throw new TypeError('secretAccessKey is a required option')
@@ -187,7 +189,7 @@ export class AwsV4Signer {
 
     // headers are always lowercase in keys()
     this.signableHeaders = ['host', ...this.headers.keys()]
-      .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header))
+      .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header) || !ignoreHeaders.includes(header))
       .sort()
 
     this.signedHeaders = this.signableHeaders.join(';')
