@@ -89,6 +89,7 @@ async function doFetch() {
       appendSessionToken, // set to true to add X-Amz-Security-Token after signing, defaults to true for iot
       allHeaders,         // set to true to force all headers to be signed instead of the defaults
       singleEncode,       // set to true to only encode %2F once (usually only needed for testing)
+      ignoreHeaders,      // specify headers to be ignore when generating signature
     },
   })
 
@@ -144,6 +145,7 @@ async function doFetch() {
       appendSessionToken, // set to true to add X-Amz-Security-Token after signing, defaults to true for iot
       allHeaders,         // set to true to force all headers to be signed instead of the defaults
       singleEncode,       // set to true to only encode %2F once (usually only needed for testing)
+      ignoreHeaders,      // specify headers to be ignore when generating signature
     },
   })
 
@@ -177,6 +179,7 @@ const signer = new AwsV4Signer({
   appendSessionToken, // set to true to add X-Amz-Security-Token after signing, defaults to true for iot
   allHeaders,         // set to true to force all headers to be signed instead of the defaults
   singleEncode,       // set to true to only encode %2F once (usually only needed for testing)
+  ignoreHeaders,      // specify headers to be ignore when generating signature
 })
 ```
 
