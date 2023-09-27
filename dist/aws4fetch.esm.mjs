@@ -76,7 +76,7 @@ class AwsClient {
   }
 }
 class AwsV4Signer {
-  constructor({ method, url, headers, body, accessKeyId, secretAccessKey, sessionToken, service, region, cache, datetime, signQuery, appendSessionToken, allHeaders, singleEncode }) {
+  constructor({ method, url, headers, body, accessKeyId, secretAccessKey, sessionToken, service, region, cache, datetime, signQuery, appendSessionToken, allHeaders, singleEncode, ignoreHeaders }) {
     if (url == null) throw new TypeError('url is a required option')
     if (accessKeyId == null) throw new TypeError('accessKeyId is a required option')
     if (secretAccessKey == null) throw new TypeError('secretAccessKey is a required option')
@@ -106,8 +106,9 @@ class AwsV4Signer {
     if (this.sessionToken && !this.appendSessionToken) {
       params.set('X-Amz-Security-Token', this.sessionToken);
     }
+    const headersToIgnore = new Set(ignoreHeaders || []);
     this.signableHeaders = ['host', ...this.headers.keys()]
-      .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header))
+      .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header) || !headersToIgnore.has(header))
       .sort();
     this.signedHeaders = this.signableHeaders.join(';');
     this.canonicalHeaders = this.signableHeaders
