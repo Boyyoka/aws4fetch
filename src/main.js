@@ -189,8 +189,7 @@ export class AwsV4Signer {
 
     // headers are always lowercase in keys()
     this.signableHeaders = ['host', ...this.headers.keys()]
-      // @ts-ignore
-      .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header) || !ignoreHeaders.includes(header))
+      .filter(header => allHeaders || !UNSIGNABLE_HEADERS.has(header) || !ignoreHeaders?.includes(header))
       .sort()
 
     this.signedHeaders = this.signableHeaders.join(';')
