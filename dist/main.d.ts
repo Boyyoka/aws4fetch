@@ -67,7 +67,7 @@ export class AwsV4Signer {
         appendSessionToken?: boolean;
         allHeaders?: boolean;
         singleEncode?: boolean;
-        ignoreHeaders?: Array<string>;
+        ignoreHeaders?: string[];
     });
     method: string;
     url: URL;
